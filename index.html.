@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>GM/GN Vibe Terminal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap');
+        body { font-family: 'JetBrains+Mono', monospace; background-color: #0a0a0a; color: #00ff41; }
+        .glass { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(10px); border: 1px solid rgba(0, 255, 65, 0.2); }
+    </style>
+</head>
+<body class="flex flex-col items-center justify-center min-h-screen p-4">
+
+    <div class="glass p-8 rounded-2xl w-full max-w-lg shadow-2xl">
+        <h1 class="text-2xl font-bold mb-2 tracking-tighter uppercase tracking-widest text-center">Vibe Terminal v1.0</h1>
+        <p class="text-xs opacity-50 mb-8 text-center">Status: Connected to Mainnet // Sentiment: Bullish</p>
+        
+        <div id="output-box" class="bg-black p-6 rounded-lg mb-6 min-h-[120px] flex items-center justify-center text-lg text-center border border-green-900/50">
+            Click a button to generate high-signal content...
+        </div>
+
+        <div class="grid grid-cols-2 gap-4">
+            <button onclick="generate('gm')" class="bg-green-600 hover:bg-green-500 text-black font-bold py-3 rounded-lg transition-all active:scale-95">GENERATE GM</button>
+            <button onclick="generate('gn')" class="bg-purple-600 hover:bg-purple-500 text-white font-bold py-3 rounded-lg transition-all active:scale-95">GENERATE GN</button>
+        </div>
+    </div>
+
+    <script>
+        const vibes = {
+            gm: [
+                "GM. The charts look like a staircase to heaven. WAGMI.",
+                "GM to everyone except the people who sold the dip.",
+                "GM. Checked the portfolio, still not selling. Back to building.",
+                "GM. High signal morning. Focus on the tech, ignore the noise.",
+                "GM. Another day, another block. Let's get this yield."
+            ],
+            gn: [
+                "GN. Dreaming of 100k BTC and zero gas fees.",
+                "GN. The floor is holding. We sleep well tonight.",
+                "GN. Another day closer to the halving. Stay comfy.",
+                "GN to the builders and the believers. See you at the pump.",
+                "GN. Checked the charts one last time. Pure hopium."
+            ]
+        };
+
+        function generate(type) {
+            const list = vibes[type];
+            const randomVibe = list[Math.floor(Math.random() * list.length)];
+            document.getElementById('output-box').innerText = randomVibe;
+        }
+    </script>
+</body>
+</html>
