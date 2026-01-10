@@ -1,8 +1,4 @@
-- 👋 Hi, I’m @zahra usman
-- 👀 I’m interested in ..blockchain,nfts,Hacking,Coding,IT.
-- 🌱 I’m currently learning nfts..
+- 👋 Hi, I’m zahra
+- 👀 I’m interested in ..blockchain,Hacking,Coding,IT.
+- 🌱 I’m currently learning blockchain technology..
 - 💞️ I’m looking to collaborate and learn
-<!---
-Usmanzahra/Usmanzahra is a ✨ special ✨ repository because its `README.md` (this file) appears on your GitHub profile.
-You can click the Preview link to take a look at your changes.
---->
