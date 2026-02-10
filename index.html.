@@ -2,38 +2,163 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>GM/GN Vibe Terminal</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>0xzahra // Vibe Terminal</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap');
-        body { font-family: 'JetBrains+Mono', monospace; background-color: #0a0a0a; color: #00ff41; }
-        .glass { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(10px); border: 1px solid rgba(0, 255, 65, 0.2); }
+        
+        body { 
+            font-family: 'JetBrains+Mono', monospace; 
+            background-color: #050505; 
+            color: #00ff41; 
+            background-image: radial-gradient(circle at 50% 50%, #111 0%, #000 100%);
+        }
+
+        .glass { 
+            background: rgba(20, 20, 20, 0.6); 
+            backdrop-filter: blur(12px); 
+            border: 1px solid rgba(0, 255, 65, 0.15); 
+            box-shadow: 0 0 20px rgba(0, 255, 65, 0.05);
+        }
+
+        /* Scanline effect */
+        .scanline {
+            width: 100%;
+            height: 100px;
+            z-index: 10;
+            background: linear-gradient(0deg, rgba(0,0,0,0) 0%, rgba(0, 255, 65, 0.04) 50%, rgba(0,0,0,0) 100%);
+            opacity: 0.1;
+            position: absolute;
+            bottom: 100%;
+            animation: scanline 10s linear infinite;
+            pointer-events: none;
+        }
+        @keyframes scanline {
+            0% { bottom: 100%; }
+            100% { bottom: -100%; }
+        }
+
+        .cursor::after {
+            content: '█';
+            animation: blink 1s step-end infinite;
+            margin-left: 4px;
+            color: #00ff41;
+        }
+        @keyframes blink { 50% { opacity: 0; } }
     </style>
 </head>
-<body class="flex flex-col items-center justify-center min-h-screen p-4">
+<body class="flex flex-col items-center justify-center min-h-screen p-4 relative overflow-hidden">
 
-    <div class="glass p-8 rounded-2xl w-full max-w-lg shadow-2xl">
-        <h1 class="text-2xl font-bold mb-2 tracking-tighter uppercase tracking-widest text-center">Vibe Terminal v1.0</h1>
-        <p class="text-xs opacity-50 mb-8 text-center">Status: Connected to Mainnet // Sentiment: Bullish</p>
+    <div class="scanline"></div>
+
+    <div class="glass p-8 rounded-xl w-full max-w-lg relative z-10">
+        <div class="flex justify-between items-center mb-6 border-b border-green-900/50 pb-4">
+            <div>
+                <h1 class="text-xl font-bold tracking-widest text-white">0XZAHRA_TERMINAL</h1>
+                <p class="text-[10px] text-green-400/60 mt-1">
+                    NET: BASE MAINNET <span class="mx-1">|</span> MODE: SOCIAL SIGNAL
+                </p>
+            </div>
+            <div class="h-3 w-3 rounded-full bg-green-500 animate-pulse shadow-[0_0_10px_#00ff41]"></div>
+        </div>
         
-        <div id="output-box" class="bg-black p-6 rounded-lg mb-6 min-h-[120px] flex items-center justify-center text-lg text-center border border-green-900/50">
-            Click a button to generate high-signal content...
+        <div class="bg-black/80 p-6 rounded-lg mb-6 min-h-[140px] flex items-center justify-center text-lg text-center border border-green-900/30 shadow-inner relative group">
+            <span id="output-text" class="cursor">System Ready. Select a vibe to generate post ideas...</span>
+            
+            <button onclick="copyText()" class="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity text-xs bg-green-900/30 hover:bg-green-800/50 text-green-400 px-2 py-1 rounded border border-green-700/50">
+                COPY
+            </button>
         </div>
 
-        <div class="grid grid-cols-2 gap-4">
-            <button onclick="generate('gm')" class="bg-green-600 hover:bg-green-500 text-black font-bold py-3 rounded-lg transition-all active:scale-95">GENERATE GM</button>
-            <button onclick="generate('gn')" class="bg-purple-600 hover:bg-purple-500 text-white font-bold py-3 rounded-lg transition-all active:scale-95">GENERATE GN</button>
+        <div class="grid grid-cols-2 gap-4 mb-8">
+            <button onclick="generate('gm')" class="bg-green-600/10 hover:bg-green-500/20 border border-green-500/50 text-green-400 hover:text-green-300 font-bold py-3 rounded transition-all active:scale-95 uppercase tracking-wider text-sm">
+                Generate GM
+            </button>
+            <button onclick="generate('gn')" class="bg-purple-900/10 hover:bg-purple-500/20 border border-purple-500/50 text-purple-400 hover:text-purple-300 font-bold py-3 rounded transition-all active:scale-95 uppercase tracking-wider text-sm">
+                Generate GN
+            </button>
+        </div>
+
+        <div class="text-[10px] text-center text-green-500/40 border-t border-green-900/50 pt-4 space-y-2">
+            <p>BUILT WITH VIBES & CODE</p>
+            <div class="flex justify-center gap-4 text-xs">
+                <a href="https://github.com/0xzahra" target="_blank" class="hover:text-white transition-colors">GITHUB</a>
+                <span>•</span>
+                <a href="https://www.base.org/name/arewa" target="_blank" class="hover:text-blue-400 transition-colors">AREWA.BASE.ETH</a>
+            </div>
         </div>
     </div>
 
     <script>
         const vibes = {
             gm: [
-                "GM. The charts look like a staircase to heaven. WAGMI.",
-                "GM to everyone except the people who sold the dip.",
-                "GM. Checked the portfolio, still not selling. Back to building.",
-                "GM. High signal morning. Focus on the tech, ignore the noise.",
-                "GM. Another day, another block. Let's get this yield."
+                // Bullish Sentiment
+                "GM. The charts look like a staircase to heaven today. WAGMI.",
+                "GM. Everything is green. The simulation is healing.",
+                // HODL Mentality
+                "GM. Checked the portfolio, still not selling. Diamond hands only.",
+                "GM. If you didn't sell the dip, you deserve this pump.",
+                // Builder Mindset
+                "GM. Less chart watching, more building. Let's ship something today.",
+                "GM to everyone working on long-term value while the noise fades.",
+                // Ignoring FUD
+                "GM. High signal morning. Filter out the FUD and focus on the tech.",
+                "GM. Another day, another block produced. Ignore the noise."
+            ],
+            gn: [
+                // Hopium & Wealth
+                "GN. Dreaming of 100k BTC and retirement. Sleep tight.",
+                "GN. Manifesting financial freedom for the whole timeline.",
+                // Comfort & Patience
+                "GN. The floor is holding. We sleep well tonight.",
+                "GN. Slow and steady wins the race. Patience pays.",
+                // Community Solidarity
+                "GN to the builders and the believers. See you at the top.",
+                "GN. We're all gonna make it. Rest up, kings and queens.",
+                // Chart Checking
+                "GN. Checked the charts one last time. Pure hopium.",
+                "GN. One last look at the candles before lights out. Green dreams only."
+            ]
+        };
+
+        // Typewriter Effect Function
+        function typeWriter(text, elementId) {
+            const element = document.getElementById(elementId);
+            element.innerHTML = ''; // Clear existing text
+            element.classList.add('cursor'); // Ensure cursor is there
+            
+            let i = 0;
+            const speed = 25; // Typing speed in ms
+
+            function type() {
+                if (i < text.length) {
+                    element.innerHTML += text.charAt(i);
+                    i++;
+                    setTimeout(type, speed);
+                }
+            }
+            type();
+        }
+
+        function generate(type) {
+            const list = vibes[type];
+            const randomVibe = list[Math.floor(Math.random() * list.length)];
+            
+            // Trigger typewriter effect
+            typeWriter(randomVibe, 'output-text');
+        }
+
+        function copyText() {
+            const text = document.getElementById('output-text').innerText;
+            navigator.clipboard.writeText(text).then(() => {
+                alert("Vibe copied to clipboard!");
+            });
+        }
+    </script>
+</body>
+</html>
             ],
             gn: [
                 "GN. Dreaming of 100k BTC and zero gas fees.",
